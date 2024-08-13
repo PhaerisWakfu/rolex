@@ -1,0 +1,39 @@
+### 新建任务
+POST http://localhost:8080/job
+Content-Type: application/json
+
+{
+  "cron": "0 13 */1 * * ?",
+  "name": "透传任务测试1",
+  "param": {
+    "url": "http://localhost:8080/job/get",
+    "param": {
+      "type": 1
+    }
+  },
+  "tag": "test",
+  "type": -1
+}
+
+### 获取任务列表
+POST http://localhost:8080/job/get
+Content-Type: application/json
+
+{
+  "type": -1
+}
+
+### 获取任务详情
+GET http://localhost:8080/job/1816400905329094658
+
+### 立即执行任务
+PUT http://localhost:8080/job/run/1816400905329094658
+
+### 暂停任务
+PUT http://localhost:8080/job/pause/1816400905329094658
+
+### 恢复任务
+PUT http://localhost:8080/job/resume/1816400905329094658
+
+### 删除任务
+DELETE http://localhost:8080/job/1816400905329094658

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.phaeris.rolex.mapper.JobMapper">
+
+    <select id="list" resultType="com.phaeris.rolex.obj.vo.JobVO">
+        select j.id,
+               j.name,
+               j.description,
+               j.type,
+               j.job_group_name,
+               j.job_name,
+               j.cron,
+               j.zone_id,
+               j.start_at,
+               j.end_at,
+               j.ctime,
+               j.mtime,
+               qt.trigger_state as state
+        from job j
+                 left join qrtz_triggers qt on j.job_group_name = qt.job_group and j.job_name = qt.job_name
+        where j.deleted = 0
+          and j.type = #{type}
+          and (j.end_at is null or j.end_at &gt; now())
+        <if test="tag != null and tag != ''">
+            and j.tag = #{tag}
+        </if>
+        order by ctime desc
+    </select>
+
+</mapper>
